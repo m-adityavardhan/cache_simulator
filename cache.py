@@ -36,42 +36,6 @@ class Cache:
         self._cache = [[{'tag' : -1,'isDirty':False,'address':0}]*self._assoc for _ in range(self._noOfSets)]
         self._tagCache = [[{'tag' : -1}]*self._assoc for _ in range(self._noOfSets)]
     
-    def getBlockSize(self):
-        return self._blockSize
-    
-    def getSize(self):
-        return self._size
-    
-    def getAssoc(self):
-        return self._assoc
-    
-    def getReadCount(self):
-        return self._readCount
-    
-    def getWriteCount(self):
-        return self._writeCount
-    
-    def getReadMissCount(self):
-        return self._readMissCount
-    
-    def getWriteMissCount(self):
-        return self._writeMissCount
-    
-    def getWriteBackCount(self):
-        return self._writeBackCount
-    
-    def getWriteBackToMemCount(self):
-        return self._writeBackToMemCount
-    
-    def getCache(self):
-        return self._cache
-
-    def attachInnerCache(self,innerCache):
-        self._innerCache = innerCache
-
-    def attachOuterCache(self,outerCache):
-        self._outerCache = outerCache
-
     def _getTagAndIndex(self,address):
         binary = bin(int(address, 16))[2:].zfill(32)
         tagBits , indexBits  = binary[:self._noOfTagBits], binary[self._noOfTagBits:self._noOfTagBits+self._noOfIndexBits]
@@ -79,21 +43,6 @@ class Cache:
             indexBits = '0'
         return tagBits , indexBits
     
-    def inValidate(self,address):
-        tag,index = self._getTagAndIndex(address)
-        for block in self._cache[int(index,2)]:
-            if tag == block['tag']:
-                block['tag'] = -1
-                if block['isDirty']:
-                    self._writeBackToMemCount +=1
-                block['isDirty'] = False
-                break
-        for tagBlock in self._tagCache[int(index,2)]:
-            if tag == tagBlock['tag']:
-                tagBlock['tag'] = -1
-                tagBlock['isDirty'] = False
-                break
-
     def _handleMiss(self,address,tag,index):
         victimBlock = self._replacementPolicy.allocate(address,tag, self._cache[int(index,2)],self._tagCache[int(index,2)])
         if(victimBlock['tag'] != -1):
@@ -110,6 +59,28 @@ class Cache:
             self._outerCache.read(address)
         except:
             pass
+
+    def attachInnerCache(self,innerCache):
+        self._innerCache = innerCache
+
+    def attachOuterCache(self,outerCache):
+        self._outerCache = outerCache
+    
+    def inValidate(self,address):
+        tag,index = self._getTagAndIndex(address)
+        for block in self._cache[int(index,2)]:
+            if tag == block['tag']:
+                if block['isDirty']:
+                    # self._writeBackCount += 1
+                    self._writeBackToMemCount +=1
+                block['tag'] = -1
+                block['isDirty'] = False
+                break
+        for tagBlock in self._tagCache[int(index,2)]:
+            if tag == tagBlock['tag']:
+                tagBlock['tag'] = -1
+                tagBlock['isDirty'] = False
+                break
         
     def read(self,address):
         if not self._size:
@@ -151,3 +122,33 @@ class Cache:
             for block in self._cache[int(index,2)]:
                 if tag == block['tag']:
                     block['isDirty'] = True
+  
+    def getBlockSize(self):
+        return self._blockSize
+    
+    def getSize(self):
+        return self._size
+    
+    def getAssoc(self):
+        return self._assoc
+    
+    def getReadCount(self):
+        return self._readCount
+    
+    def getWriteCount(self):
+        return self._writeCount
+    
+    def getReadMissCount(self):
+        return self._readMissCount
+    
+    def getWriteMissCount(self):
+        return self._writeMissCount
+    
+    def getWriteBackCount(self):
+        return self._writeBackCount
+    
+    def getWriteBackToMemCount(self):
+        return self._writeBackToMemCount
+    
+    def getCache(self):
+        return self._cache
