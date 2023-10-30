@@ -1,9 +1,11 @@
 def _enumarateCache(cache):
+    # Constructing output string my iterating each line in cache
     for index,set in enumerate(cache.getCache()):
-        o=''
+        outputString=''
+        # For each block in set 
         for block in set:
-            o += '{} {}'.format(hex(int(block['tag'],2))[2:],'D  ' if block['isDirty'] else '   ')
-        print("Set\t{}:\t".format(index)+o)
+            outputString += '{} {}'.format(hex(int(block['tag'],2))[2:],'D  ' if block['isDirty'] else '   ')
+        print("Set\t{}:\t".format(index)+outputString)
 
 
 def displayOutput(cache1,cache2,blockSize,l1Size,l1Assoc,l2Size,l2Assoc,replacementPolicy,inclusionPolicy,traceFile):
