@@ -40,20 +40,23 @@ def displayOutput(cache1,cache2,blockSize,l1Size,l1Assoc,l2Size,l2Assoc,replacem
     trace_file:            {}'''.format(blockSize,l1Size,l1Assoc,l2Size,l2Assoc,"LRU" if replacementPolicy=='0' else "FIFO","non-inclusive" if inclusionPolicy=='0' else "inclusive",traceFile))
     print('===== L1 contents =====')
     _enumarateCache(cache1)
-    if cache2.getSize:
+    if cache2.getSize():
         print('===== L2 contents =====')
         _enumarateCache(cache2)
     print('''===== Simulation results (raw) =====
-    a. number of L1 reads:        {}
-    b. number of L1 read misses:  {}
-    c. number of L1 writes:       {}
-    d. number of L1 write misses: {}
-    e. L1 miss rate:              {:6f}
-    f. number of L1 writebacks:   {}
-    g. number of L2 reads:        {}
-    h. number of L2 read misses:  {}
-    i. number of L2 writes:       {}
-    j. number of L2 write misses: {}
-    k. L2 miss rate:              {:6f}
-    l. number of L2 writebacks:   {}
-    m. total memory traffic:      {}'''.format(a,b,c,d,e,f,g,h,i,j,k,l,m))
+a. number of L1 reads:        {}
+b. number of L1 read misses:  {}
+c. number of L1 writes:       {}
+d. number of L1 write misses: {}
+e. L1 miss rate:              {:6f}
+f. number of L1 writebacks:   {}
+g. number of L2 reads:        {}
+h. number of L2 read misses:  {}
+i. number of L2 writes:       {}
+j. number of L2 write misses: {}'''.format(a,b,c,d,e,f,g,h,i,j))
+    if cache2.getSize():
+        print('k. L2 miss rate:              {:6f}'''.format(k))
+    else:
+        print('k. L2 miss rate:              0')
+    print('''l. number of L2 writebacks:   {}
+m. total memory traffic:      {}'''.format(l,m))
