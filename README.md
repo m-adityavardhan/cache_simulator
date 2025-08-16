@@ -3,7 +3,7 @@
 This project implements a configurable cache simulator as described in the MP1 instructions. It supports various cache configurations, replacement policies, and inclusion properties, and provides tools for analysis and validation.
 
 
-## [How to Run](#how-to-run)
+## How to Run
 
 The main simulator is run using [`sim_cache.py`](sim_cache.py) from the command line:
 
@@ -26,7 +26,7 @@ python sim_cache.py 32 1024 4 8192 8 0 0 tests\traces\gcc_trace.txt
 ```
 
 
-## [Options and Features](#options-and-features)
+## Options and Features
 
 - **Replacement Policies:** [LRU](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)) and [FIFO](https://en.wikipedia.org/wiki/Cache_replacement_policies#First_in,_first_out_(FIFO)) are supported.
 - **Inclusion Properties:** Both inclusive and non-inclusive caches are supported ([Learn more](https://en.wikipedia.org/wiki/Cache_inclusion_policy)).
@@ -34,13 +34,13 @@ python sim_cache.py 32 1024 4 8192 8 0 0 tests\traces\gcc_trace.txt
 - **Graphs:** Scripts like [`graph_missrate.py`](graph_missrate.py), [`graph_inclusion.py`](graph_inclusion.py), and [`graph_replacement.py`](graph_replacement.py) generate plots to analyze cache performance under different configurations.
 
 
-## [Validation and Debugging](#validation-and-debugging)
+## Validation and Debugging
 
 - **Validation Runs:** Use files in [`tests/validation_runs/`](tests/validation_runs/) to compare simulator output against expected results.
 - **Debug Runs:** Use files in [`tests/debug_runs/`](tests/debug_runs/) for step-by-step debugging and analysis.
 
 
-## [Output](#output)
+## Output
 
 The simulator prints a detailed summary of the cache configuration and statistics after each run. Output includes:
 
@@ -81,7 +81,7 @@ Memory traffic:        700
 This output helps you validate your implementation and analyze cache behavior under different configurations.
 
 
-## [Files Overview](#files-overview)
+## Files Overview
 
 - [`sim_cache.py`](sim_cache.py): Main entry point for running the simulator.
 - [`cache.py`](cache.py): Core cache logic and data structures.
@@ -91,7 +91,7 @@ This output helps you validate your implementation and analyze cache behavior un
 - [`tests/`](tests/): Contains trace files, validation runs, and debug runs.
 
 
-## [Requirements](#requirements)
+## Requirements
 
 - Python 3.x
 - [`matplotlib`](https://matplotlib.org/) (for graph scripts)
